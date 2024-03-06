@@ -1,6 +1,7 @@
 ---
 import MainHead from "@/layouts/MainHead.astro";
-import Navbar from "@/components/Navbar.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
 interface Props {
   title: string;
   description?: string;
@@ -12,11 +13,12 @@ const { title, description } = Astro.props;
 <!doctype html>
 <html lang="en">
   <MainHead {title} {description} />
-  <body>
-    <Navbar />
-    <main class="container mx-auto w-[81.25rem]">
+  <body class="min-h-screen flex flex-col justify-between">
+    <Header />
+    <main class="flex-grow">
       <slot />
     </main>
+    <Footer />
     <style is:global>
       code {
         font-family:
@@ -30,8 +32,14 @@ const { title, description } = Astro.props;
           monospace;
       }
 
-      span {
+      /* span {
         margin: 1rem auto;
+      } */
+      button,
+      span,
+      p {
+        font-size: 1rem;
+        color: white;
       }
     </style>
   </body>
