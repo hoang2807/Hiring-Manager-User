@@ -1,0 +1,32 @@
+---
+import MainHead from "@/layouts/MainHead.astro";
+import Navbar from "@/components/Navbar.astro";
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <MainHead {title} {description} />
+  <body>
+    <Navbar />
+    <slot />
+    <style is:global>
+      code {
+        font-family:
+          Menlo,
+          Monaco,
+          Lucida Console,
+          Liberation Mono,
+          DejaVu Sans Mono,
+          Bitstream Vera Sans Mono,
+          Courier New,
+          monospace;
+      }
+    </style>
+  </body>
+</html>
