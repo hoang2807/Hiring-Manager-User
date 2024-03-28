@@ -1,0 +1,92 @@
+---
+import Search from "@/components/Search.astro";
+import Layout from "@/layouts/Layout.astro";
+import { formatStringToArray } from "@/utils";
+
+const { id } = Astro.params;
+
+const res = await (
+  await fetch(`${import.meta.env.BASE_API_URL}/job/${id}`)
+).json();
+const data = res.data;
+
+const skills = formatStringToArray(data.skills, ",");
+const job_description = formatStringToArray(data.job_description, ";");
+const job_requirements = formatStringToArray(data.job_requirements, ";");
+const benefits = formatStringToArray(data.benefits, ";");
+const position = data.position;
+const salary = data.salary;
+const location = data.location;
+console.log(data);
+console.log(job_description);
+---
+
+<Layout title="job">
+  <Search />
+  <div class="mx-auto max-w-[1220px] mt-8 flex flex-col items-center">
+    <div class="w-[67%] flex flex-col gap-6">
+      <div class="flex flex-col gap-4 bg-[#fff] rounded p-6">
+        <h1>
+          {data.title}
+        </h1>
+        <div class="flex items-center gap-2">
+          <div class="badge badge-primary p-3">{position}</div>
+          <div class="badge badge-secondary p-3">{salary}</div>
+          <div class="badge badge-accent p-3">{location}</div>
+        </div>
+        <div class="badge">Hạn nộp hồ sơ: {data.deadline_date}</div>
+        <button class="btn btn-primary">Apply Now</button>
+      </div>
+      <div class="card card-compact bg-base-100 shadow-xl">
+        <div class="card-body">
+          <h2 class="card-title">Skills</h2>
+          <hr class="border" />
+          <div class="flex gap-2 mt-2">
+            {
+              skills?.map((item: string) => (
+                <div class="badge badge-neutral p-3">{item}</div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+      <div class="card card-compact bg-base-100 shadow-xl">
+        <div class="card-body">
+          <h2 class="card-title">Chi tiết tin tuyển dụng</h2>
+          <hr class="border" />
+
+          <h2 class="card-title">Mô tả công việc</h2>
+          <div class="mt-2">
+            <ul>
+              {
+                job_description?.map((item: string) => (
+                  <li class="leading-8">- {item.trim()}</li>
+                ))
+              }
+            </ul>
+          </div>
+          <h2 class="card-title">Yêu cầu ứng viên</h2>
+          <div class="mt-2">
+            <ul>
+              {
+                job_requirements?.map((item: string) => (
+                  <li class="leading-8">- {item.trim()}</li>
+                ))
+              }
+            </ul>
+          </div>
+          <h2 class="card-title">Quyền lợi</h2>
+          <div class="mt-2">
+            <ul>
+              {
+                benefits?.map((item: string) => (
+                  <li class="leading-8">- {item.trim()}</li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

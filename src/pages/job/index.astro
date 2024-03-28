@@ -1,0 +1,43 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Search from "@/components/Search.astro";
+---
+
+<Layout title="job">
+  <Search />
+  <div class="mx-auto max-w-[1220px] mt-8 flex gap-6">
+    <div class="w-[67%] flex flex-col gap-6">
+      <div class="flex flex-col gap-4 bg-[#fff] rounded p-6">
+        <h1>
+          Mảng Thẩm Mỹ Tại HCM (Lương Cứng Từ 7tr + Phụ Cấp + Thưởng + Hoa Hồng
+          3%)
+        </h1>
+        <div class="flex items-center gap-2">
+          <div class="badge badge-primary">primary</div>
+          <div class="badge badge-secondary">secondary</div>
+          <div class="badge badge-accent">accent</div>
+        </div>
+        <div class="badge">Hạn nộp hồ sơ: 29/03/2024</div>
+        <button class="btn btn-primary">Apply Now</button>
+      </div>
+      <div class="card card-compact bg-base-100 shadow-xl">
+        <div class="card-body">
+          <h2 class="card-title">Skills</h2>
+          <hr class="border" />
+          <div class="flex mt-2">
+            <div class="badge badge-neutral">neutral</div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-compact bg-base-100 shadow-xl">
+        <div class="card-body">
+          <h2 class="card-title">Chi tiết tin tuyển dụng</h2>
+          <hr class="border" />
+          <div class="flex mt-2">
+            <div class="badge badge-neutral">neutral</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

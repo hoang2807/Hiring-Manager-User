@@ -3,9 +3,9 @@ import { atom } from "nanostores";
 
 interface Auth {
   accessToken: string;
-  accessTokenExpiredAt: number;
+  // accessTokenExpiredAt: number;
   refreshToken: string;
-  refreshTokenExpiredAt: number;
+  // refreshTokenExpiredAt: number;
 }
 export const $auth = atom<Auth[]>([]);
 

@@ -1,0 +1,24 @@
+---
+import { Image } from "astro:assets";
+import Default from "@/assets/images/logo_default.webp";
+
+interface IData {
+  id: number;
+  title: string;
+  description: string;
+}
+
+const { id, title, description } = Astro.props;
+---
+
+<div class="bg-[#fff] rounded p-3">
+  <div class="flex">
+    <Image src={Default} alt="default" />
+    <div
+      class="min-h-full overflow-hidden whitespace-nowrap flex-grow text-ellipsis"
+    >
+      <h3>{title}</h3>
+      <a href=`/job/${id}` class="h-full">{description}</a>
+    </div>
+  </div>
+</div>
