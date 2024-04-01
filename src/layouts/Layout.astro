@@ -1,6 +1,6 @@
 ---
 import MainHead from "@/layouts/MainHead.astro";
-import Header from "@/components/Header.astro";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer.astro";
 interface Props {
   title: string;
@@ -44,6 +44,10 @@ const { title, description } = Astro.props;
 
       body {
         background-color: #f4f5f5;
+      }
+
+      .indicator {
+        color: white;
       }
     </style>
   </body>
