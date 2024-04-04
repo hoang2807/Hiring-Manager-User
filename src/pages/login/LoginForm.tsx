@@ -1,27 +1,23 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { useState } from "react";
 
 const LoginForm = () => {
   const [username, setUsername] = useState<String>("");
   const [password, setPassword] = useState<String>("");
 
   const handleSubmit = (e: any) => {
-    e.preventDefault();
-    // const res = await (
-    //   await fetch(`${import.meta.env.BASE_API_URL}/auth-user/signin`, {
-    //     method: "post",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       username,
-    //       password,
-    //     }),
-    //   })
-    // ).json();
-
-    // const accessToken = res?.data?.accessToken;
-    console.log(username, password);
+    fetch(`http://localhost:3000/api/auth-user/signin`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        window.sessionStorage.setItem("id", data.data.user.id);
+        window.location.replace("http://localhost:4321");
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -34,7 +30,7 @@ const LoginForm = () => {
         in relation to your privacy information.
       </span>
       <div className="card shrink-0 w-full shadow-2xl bg-base-100 mt-4">
-        <form className="card-body" method="post">
+        <div className="card-body">
           <div className="form-control mb-4">
             <label className="input input-bordered flex items-center gap-2">
               <svg
@@ -48,10 +44,13 @@ const LoginForm = () => {
               </svg>
               <input
                 type="text"
+                id="username"
                 name="username"
                 className="grow"
                 placeholder="Username"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
               />
             </label>
           </div>
@@ -72,6 +71,7 @@ const LoginForm = () => {
               <input
                 type="password"
                 name="password"
+                id="password"
                 className="grow"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
@@ -86,13 +86,13 @@ const LoginForm = () => {
           <div className="form-control mt-4">
             <button
               className="btn btn-primary"
-              type="submit"
-              onSubmit={handleSubmit}
+              id="submit"
+              onClick={handleSubmit}
             >
               Login
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
