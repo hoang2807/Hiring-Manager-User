@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { $auth, addUser, user } from "@/store/auth";
 
 const LoginForm = () => {
   const [username, setUsername] = useState<String>("");
@@ -15,6 +16,11 @@ const LoginForm = () => {
       .then((res) => res.json())
       .then((data) => {
         window.sessionStorage.setItem("id", data.data.user.id);
+        user.setId(data.data.user.id);
+        user.setToken(data.data.tokens.accessToken);
+        console.log(user.getId());
+        console.log(user.getToken());
+        addUser(data.data.tokens.accessToken, data.data.user.id);
         window.location.replace("http://localhost:4321");
       })
       .catch((error) => console.log(error));

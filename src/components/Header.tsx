@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { $auth } from "@/store/auth";
+import { $auth, user } from "@/store/auth";
 
 const Header = () => {
   const [id, setId] = useState("");
+
+  const store = useStore($auth);
+
   useEffect(() => {
     setId(window.sessionStorage.getItem("id") || "");
+    // console.log(user.getId());
+    // console.log(user.getToken());
   }, []);
-  const store = useStore($auth);
   return (
     <header className="navbar bg-[#1D232A] sticky top-0 z-50">
       <div className="container mx-auto max-w-[1220px] flex justify-between">
@@ -43,7 +47,7 @@ const Header = () => {
               </div>
               <div
                 tabIndex={0}
-                className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-[#000] shadow"
+                className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-[#fff] shadow"
               >
                 <div className="card-body">
                   <span className="font-bold text-lg">8 Items</span>
@@ -71,16 +75,13 @@ const Header = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-[#000] rounded-box w-52"
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-[#fff] rounded-box w-52"
               >
                 <li>
-                  <a className="justify-between">
+                  <a className="justify-between" href={`/profile/${id}`}>
                     Profile
                     <span className="badge">New</span>
                   </a>
-                </li>
-                <li>
-                  <a>Settings</a>
                 </li>
                 <li>
                   <a>Logout</a>
