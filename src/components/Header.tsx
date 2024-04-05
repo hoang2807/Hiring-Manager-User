@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <header className="navbar bg-[#1D232A] sticky top-0 z-50">
       <div className="container mx-auto max-w-[1220px] flex justify-between">
-        <a className="text-xl text-[#fff]" href="">
+        <a className="text-xl text-[#fff]" href="/">
           TopIT
         </a>
         {id ? (
