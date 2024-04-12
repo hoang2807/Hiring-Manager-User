@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import IconSvg from "@/components/IconSvg.astro";
 import Pagination from "@/components/Pagination.astro";
-import Search from "@/components/Search.astro";
+import Search from "@/components/Search";
 import CardJob from "@/components/CardJob.astro";
 import { Image } from "astro:assets";
 import Default from "@/assets/images/logo_default.webp";
@@ -16,7 +16,7 @@ const job = data.data;
 ---
 
 <Layout title="TopIT">
-  <Search />
+  <Search client:load />
   <div class="mx-auto max-w-[1220px] mt-8 flex flex-col items-center">
     <h2 class="text-2xl font-extrabold leading-none tracking-tight">
       Công cụ tốt nhất cho hành trang ứng tuyển của bạn

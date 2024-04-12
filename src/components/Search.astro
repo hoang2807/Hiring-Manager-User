@@ -21,11 +21,14 @@ const recommend: Array<string> = ["Java", "NodeJS", "ReactJS", "PHP"];
         <option disabled selected>Thành phố</option>
         {location.map((e) => <option>{e.name}</option>)}
       </select>
-      <input
-        type="text"
-        placeholder="Nhập theo từ khóa kỹ năng"
-        class="input input-bordered w-full max-w-[33rem] h-14 text-[#000]"
-      />
+      <div class="tooltip w-full max-w-[33rem] h-14" data-tip="">
+        <input
+          id="input-search"
+          type="text"
+          placeholder="Nhập theo từ khóa kỹ năng"
+          class="input input-bordered w-full max-w-[33rem] h-14 text-[#000]"
+        />
+      </div>
       <button class="btn btn-primary w-60 h-14">Tìm kiếm</button>
     </div>
     <div class="flex gap-4 items-center">
@@ -38,3 +41,10 @@ const recommend: Array<string> = ["Java", "NodeJS", "ReactJS", "PHP"];
     </div>
   </div>
 </div>
+
+<script>
+  const search = document.getElementById("input-search");
+  search?.addEventListener("change", function (e) {
+    console.log(e.target);
+  });
+</script>

@@ -1,0 +1,13 @@
+/* .tooltip:before {
+  max-width: 100%;
+  width: 100%;
+  background-color: white;
+  color: black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-block: 12px;
+} */
+
+.myTooltip:hover .myTooltip-item {
+  visibility: visible;
+}
