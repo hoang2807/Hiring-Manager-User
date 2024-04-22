@@ -176,8 +176,7 @@ body {
   display: grid;
   place-items: center;
   grid-template-rows: auto 1fr auto;
-  /* background-color: hsl(var(--bkg)); */
-  background-color: 235 15% 10%;
+  background-color: hsl(var(--bkg));
   color: hsl(var(--txt));
   font-size: var(--fs-md);
   line-height: var(--lh-1-4);
