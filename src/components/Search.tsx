@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import location from "@/data/cities.json";
 const recommend: Array<string> = ["Java", "NodeJS", "ReactJS", "PHP"];
@@ -6,7 +6,7 @@ const recommend: Array<string> = ["Java", "NodeJS", "ReactJS", "PHP"];
 import "@/styles/tooltip.css";
 
 const Search = () => {
-  const [tooltip, setTooltip] = useState<any[] | null>([]);
+  const [tooltip, setTooltip] = useState<any[]>([]);
   const showHint = (text: string) => {
     fetch(`http://localhost:3000/api/job/search/${text}`)
       .then((res) => res.json())
@@ -34,9 +34,7 @@ const Search = () => {
             className="select select-bordered w-full max-w-[15rem] h-14 text-[#000]"
             defaultValue={"An Giang"}
           >
-            {location.map((e) => (
-              <option key={e.code}>{e.name}</option>
-            ))}
+            {location?.map((e) => <option key={e.code}>{e.name}</option>)}
           </select>
           <div className="relative inline-block myTooltip bg-[#fff] w-full max-w-[33rem] h-14">
             <input
@@ -54,7 +52,7 @@ const Search = () => {
                 {tooltip?.map((e) => (
                   <li className="flex items-start" key={e.id}>
                     <a
-                      href=""
+                      href={`/job/search/${e.id}`}
                       className="font-medium text-sm text-gray-500 hover:text-black"
                     >
                       {" "}
@@ -69,8 +67,10 @@ const Search = () => {
         </div>
         <div className="flex gap-4 items-center">
           <p className="text-[#fff]">Mọi người đang tìm kiếm:</p>
-          {recommend?.map((e) => (
-            <button className="badge badge-neutral p-4 text-base">{e}</button>
+          {recommend?.map((e, i) => (
+            <button className="badge badge-neutral p-4 text-base" key={i}>
+              {e}
+            </button>
           ))}
         </div>
       </div>
