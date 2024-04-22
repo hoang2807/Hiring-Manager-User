@@ -1,20 +1,27 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { user } from "@/store/auth";
 ---
 
 <Layout title="profile">
-  <div class="bg-[#fff] p-5 w-1/2 mx-auto mt-16 flex flex-col gap-4">
+  <form class="bg-[#fff] p-5 w-1/2 mx-auto mt-16 flex flex-col gap-4">
     <span class="mt-4">Họ tên</span>
     <input
       type="text"
       placeholder="Type here"
       class="input input-bordered w-full"
+      id="name"
+      required
     />
     <span class="mt-4">Số điện thoại</span>
     <input
       type="text"
       placeholder="Type here"
       class="input input-bordered w-full"
+      pattern="[0-9]{3} [0-9]{3} [0-9]{4}"
+      maxlength="12"
+      id="phone"
+      required
     />
     <span class="pt-4">Email</span>
     <label class="input input-bordered flex items-center gap-2">
@@ -29,8 +36,56 @@ import Layout from "@/layouts/Layout.astro";
           d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z"
         ></path></svg
       >
-      <input type="text" class="grow" placeholder="Email" />
+      <input type="text" class="grow" placeholder="Email" id="email" />
     </label>
-    <button class="btn btn-primary">Lưu</button>
+    <span class="mt-4">Upload CV</span>
+    <input
+      type="file"
+      class="file-input file-input-bordered file-input-primary w-full max-w-xs"
+    />
+    <button class="btn btn-primary" type="submit" id="submit">Lưu</button>
+  </form>
+  <div class="toast toast-top toast-end">
+    <div class="alert alert-success">
+      <span>Message sent successfully.</span>
+    </div>
   </div>
 </Layout>
+
+<script>
+  const name = document.getElementById("name") as HTMLInputElement;
+  const phone = document.getElementById("phone") as HTMLInputElement;
+  const email = document.getElementById("email") as HTMLInputElement;
+  const button = document.getElementById("submit") as HTMLInputElement;
+
+  fetch(`http://localhost:3000/api/user/${window.sessionStorage.getItem("id")}`)
+    .then((res) => res.json())
+    .then((data) => {
+      name.value = data.data.username || "";
+      phone.value = data.data.phone_number || "";
+      email.value = data.data.email || "";
+    })
+    .catch((error) => console.error(error));
+
+  button.addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log("test");
+
+    showToast();
+  });
+  function showToast() {
+    const toast = document.querySelector(
+      ".toast:where(.toast-top)",
+    ) as HTMLInputElement;
+    toast.style.display = "block";
+    toast.style.animation = "slideInLeft 1s";
+
+    setTimeout(() => {
+      toast.style.animation = "slideInRight 1s";
+    }, 2000);
+
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 3000);
+  }
+</script>

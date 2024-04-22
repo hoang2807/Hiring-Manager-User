@@ -21,9 +21,9 @@ const LoginForm = () => {
         console.log(user.getId());
         console.log(user.getToken());
         addUser(data.data.tokens.accessToken, data.data.user.id);
-        window.location.replace("http://localhost:4321");
+        document.location.href = "/";
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error.message));
   };
 
   return (
@@ -36,7 +36,7 @@ const LoginForm = () => {
         in relation to your privacy information.
       </span>
       <div className="card shrink-0 w-full shadow-2xl bg-base-100 mt-4">
-        <div className="card-body">
+        <form className="card-body">
           <div className="form-control mb-4">
             <label className="input input-bordered flex items-center gap-2">
               <svg
@@ -57,6 +57,7 @@ const LoginForm = () => {
                 onChange={(e) => {
                   setUsername(e.target.value);
                 }}
+                required
               />
             </label>
           </div>
@@ -81,6 +82,7 @@ const LoginForm = () => {
                 className="grow"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </label>
             <label className="label">
@@ -93,12 +95,13 @@ const LoginForm = () => {
             <button
               className="btn btn-primary"
               id="submit"
+              type="submit"
               onClick={handleSubmit}
             >
               Login
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

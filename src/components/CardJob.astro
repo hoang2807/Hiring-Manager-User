@@ -14,11 +14,9 @@ const { id, title, description } = Astro.props;
 <div class="bg-[#fff] rounded p-3">
   <div class="flex">
     <Image src={Default} alt="default" />
-    <div
-      class="min-h-full overflow-hidden whitespace-nowrap flex-grow text-ellipsis"
-    >
+    <div class="min-h-full overflow-hidden flex-grow text-ellipsis">
       <a href=`/job/${id}` class="block">{title}</a>
-      <a href=`/job/${id}` class="h-full">{description}</a>
+      <a href=`/job/${id}` class="h-full line-clamp-2">{description}</a>
     </div>
   </div>
 </div>

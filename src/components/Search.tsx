@@ -8,7 +8,15 @@ import "@/styles/tooltip.css";
 const Search = () => {
   const [tooltip, setTooltip] = useState<any[]>([]);
   const showHint = (text: string) => {
-    fetch(`http://localhost:3000/api/job/search/${text}`)
+    fetch(`http://localhost:3000/api/job/search`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text,
+      }),
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data.data);
@@ -32,9 +40,16 @@ const Search = () => {
         <div className="flex flex-row gap-3 w-full">
           <select
             className="select select-bordered w-full max-w-[15rem] h-14 text-[#000]"
-            defaultValue={"An Giang"}
+            defaultValue={""}
           >
-            {location?.map((e) => <option key={e.code}>{e.name}</option>)}
+            <option value="" hidden>
+              Chọn thành phố
+            </option>
+            {location?.map((e) => (
+              <option key={e.code} value={e.name}>
+                {e.name}
+              </option>
+            ))}
           </select>
           <div className="relative inline-block myTooltip bg-[#fff] w-full max-w-[33rem] h-14">
             <input

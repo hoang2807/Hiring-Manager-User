@@ -16,7 +16,7 @@ const job = data.data;
 ---
 
 <Layout title="TopIT">
-  <Search client:load />
+  <Search client:idle />
   <div class="mx-auto max-w-[1220px] mt-8 flex flex-col items-center">
     <h2 class="text-2xl font-extrabold leading-none tracking-tight">
       Công cụ tốt nhất cho hành trang ứng tuyển của bạn
@@ -60,7 +60,7 @@ const job = data.data;
     </div>
   </div>
 
-  <div class="mx-auto max-w-[1220px] mt-8 flex justify-center">
-    <Pagination page={1} client:load />
+  <div class="mx-auto max-w-[1220px] my-8 flex justify-center">
+    <Pagination page={1} client:visible />
   </div>
 </Layout>
