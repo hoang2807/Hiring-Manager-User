@@ -17,7 +17,7 @@ const { id, title, description } = Astro.props;
     <div
       class="min-h-full overflow-hidden whitespace-nowrap flex-grow text-ellipsis"
     >
-      <h3>{title}</h3>
+      <a href=`/job/${id}` class="block">{title}</a>
       <a href=`/job/${id}` class="h-full">{description}</a>
     </div>
   </div>

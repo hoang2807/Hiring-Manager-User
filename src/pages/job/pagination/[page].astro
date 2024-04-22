@@ -8,8 +8,10 @@ import { Image } from "astro:assets";
 import Default from "@/assets/images/logo_default.webp";
 import { IJob } from "@/type";
 
+const { page } = Astro.params;
+
 const res = await fetch(
-  `${import.meta.env.BASE_API_URL}/job/pagination/?page=1&take=6`,
+  `${import.meta.env.BASE_API_URL}/job/pagination/?page=${page}&take=6`,
 );
 const data = await res.json();
 const job = data.data;
@@ -61,6 +63,10 @@ const job = data.data;
   </div>
 
   <div class="mx-auto max-w-[1220px] mt-8 flex justify-center">
-    <Pagination page={1} client:load />
+    <Pagination
+      page={parseInt(page)}
+      length={parseInt(data.data.length)}
+      client:load
+    />
   </div>
 </Layout>
