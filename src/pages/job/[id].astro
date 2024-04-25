@@ -9,14 +9,16 @@ const res = await (
   await fetch(`${import.meta.env.BASE_API_URL}/job/${id}`)
 ).json();
 const data = res.data;
-
+console.log(data);
 const skills = formatStringToArray(data.skills, ",");
 const job_description = formatStringToArray(data.job_description, ";");
 const job_requirements = formatStringToArray(data.job_requirements, ";");
 const benefits = formatStringToArray(data.benefits, ";");
 const position = data.position;
 const salary = data.salary;
-const location = data.locationon;
+const location = data.location;
+const jobId = data.id;
+const enterpriseId = data.enterpriseId;
 ---
 
 <Layout title="job">
@@ -27,6 +29,13 @@ const location = data.locationon;
         <h1>
           {data.title}
         </h1>
+        <input type="text" value={jobId} id="jobId" class="hidden" />
+        <input
+          type="text"
+          value={enterpriseId}
+          id="enterpriseId"
+          class="hidden"
+        />
         <div class="flex items-center gap-2">
           <div class="badge badge-primary p-3">{position}</div>
           <div class="badge badge-secondary p-3">{salary}</div>
@@ -44,6 +53,7 @@ const location = data.locationon;
             <input
               type="file"
               class="file-input file-input-bordered w-full max-w-xs mt-5"
+              id="cv"
             />
             <div class="modal-action">
               <form method="dialog">
@@ -80,7 +90,7 @@ const location = data.locationon;
             <ul>
               {
                 job_description?.map((item: string) => (
-                  <li class="leading-8">- {item.trim()}</li>
+                  <li class="leading-8">{item.trim()}</li>
                 ))
               }
             </ul>
@@ -114,18 +124,38 @@ const location = data.locationon;
 <script>
   const apply = document.getElementById("btn-apply");
   const apply_cv = document.getElementById("apply-cv");
+  const cv = document.getElementById("cv") as HTMLInputElement;
+  const jobId = document.getElementById("jobId") as HTMLInputElement;
+  const enterpriseId = document.getElementById(
+    "enterpriseId",
+  ) as HTMLInputElement;
   // apply?.addEventListener("click", () => {
   //   console.log("test again");
   // });
+  const userId = window.sessionStorage.getItem("id") || "";
 
-  if (window.sessionStorage.getItem("id") == "0") {
+  if (userId == "0") {
     apply?.setAttribute("disabled", "");
   }
 
-  apply_cv?.addEventListener("click", (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    // formData.append()
-    console.log(formData)
+  apply_cv?.addEventListener("click", () => {
+    if (cv.files && cv.files.length > 0) {
+      const formData = new FormData();
+      formData.append("jobId", jobId.value);
+      formData.append("enterpriseId", enterpriseId.value);
+      formData.append("userId", userId);
+      formData.append("file", cv.files[0]);
+      console.log(formData);
+      fetch("http://localhost:3000/api/application", {
+        method: "post",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+    } else {
+      // No files selected, handle this case accordingly
+      console.log("No files selected.");
+    }
   });
 </script>

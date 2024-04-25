@@ -10,10 +10,6 @@ const Header = () => {
   useEffect(() => {
     const id = window.sessionStorage.getItem("id") || "";
     setId(id);
-    console.log("header");
-    // console.log(user.getId());
-    // console.log(user.getToken());
-    return () => console.log("unmounting...");
   }, []);
   return (
     <header className="navbar bg-[#1D232A] sticky top-0 z-50">
