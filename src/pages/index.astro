@@ -4,15 +4,14 @@ import IconSvg from "@/components/IconSvg.astro";
 import Pagination from "@/components/Pagination";
 import Search from "@/components/Search";
 import CardJob from "@/components/CardJob.astro";
-import { Image } from "astro:assets";
-import Default from "@/assets/images/logo_default.webp";
 import { IJob } from "@/type";
 
 const res = await fetch(
   `${import.meta.env.BASE_API_URL}/job/pagination/?page=1&take=6`,
-);
-const data = await res.json();
-const job = data.data;
+)
+  .then((res) => res.json())
+  .catch((error) => console.log(error));
+const job = await res?.data;
 ---
 
 <Layout title="TopIT">
@@ -64,3 +63,10 @@ const job = data.data;
     <Pagination page={1} client:visible />
   </div>
 </Layout>
+
+<script
+  src="https://cdn.socket.io/4.5.0/socket.io.min.js"
+  integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k"
+  crossorigin="anonymous"></script>
+<script src="/socket.io/socket.io.js" is:inline></script>
+<script src="/js/script.js" type="module"></script>

@@ -8,9 +8,12 @@ const Header = () => {
   const store = useStore($auth);
 
   useEffect(() => {
-    setId(window.sessionStorage.getItem("id") || "");
+    const id = window.sessionStorage.getItem("id") || "";
+    setId(id);
+    console.log("header");
     // console.log(user.getId());
     // console.log(user.getToken());
+    return () => console.log("unmounting...");
   }, []);
   return (
     <header className="navbar bg-[#1D232A] sticky top-0 z-50">
@@ -18,7 +21,16 @@ const Header = () => {
         <a className="text-xl text-[#fff]" href="/">
           TopIT
         </a>
-        {id ? (
+        {!id ? (
+          <div className="flex gap-2">
+            <button className="btn btn-primary">
+              <a href="/login">Login</a>
+            </button>
+            <button className="btn btn-accent">
+              <a href="/signup">Register</a>
+            </button>
+          </div>
+        ) : (
           <div className="flex-none">
             <div className="dropdown">
               <div
@@ -78,7 +90,7 @@ const Header = () => {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-[#fff] rounded-box w-52"
               >
                 <li>
-                  <a className="justify-between" href={`/profile/${id}`}>
+                  <a className="justify-between" href="/profile">
                     Profile
                     <span className="badge">New</span>
                   </a>
@@ -88,15 +100,6 @@ const Header = () => {
                 </li>
               </ul>
             </div>
-          </div>
-        ) : (
-          <div className="flex gap-2">
-            <button className="btn btn-primary">
-              <a href="/login">Login</a>
-            </button>
-            <button className="btn btn-accent">
-              <a href="/signup">Register</a>
-            </button>
           </div>
         )}
       </div>

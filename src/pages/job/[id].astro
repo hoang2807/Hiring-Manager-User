@@ -48,7 +48,9 @@ const location = data.locationon;
             <div class="modal-action">
               <form method="dialog">
                 <!-- if there is a button in form, it will close the modal -->
-                <button class="btn btn-primary">Apply</button>
+                <button class="btn btn-primary" type="submit" id="apply-cv"
+                  >Apply</button
+                >
                 <button class="btn">Close</button>
               </form>
             </div>
@@ -110,14 +112,20 @@ const location = data.locationon;
 </Layout>
 
 <script>
-  console.log("test script");
   const apply = document.getElementById("btn-apply");
+  const apply_cv = document.getElementById("apply-cv");
   // apply?.addEventListener("click", () => {
   //   console.log("test again");
-  //   apply.setAttribute("disabled", "");
   // });
 
   if (window.sessionStorage.getItem("id") == "0") {
     apply?.setAttribute("disabled", "");
   }
+
+  apply_cv?.addEventListener("click", (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    // formData.append()
+    console.log(formData)
+  });
 </script>

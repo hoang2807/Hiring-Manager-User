@@ -61,6 +61,7 @@ import { user } from "@/store/auth";
   fetch(`http://localhost:3000/api/user/${window.sessionStorage.getItem("id")}`)
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       name.value = data.data.username || "";
       phone.value = data.data.phone_number || "";
       email.value = data.data.email || "";
