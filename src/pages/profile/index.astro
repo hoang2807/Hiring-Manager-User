@@ -42,6 +42,7 @@ import { user } from "@/store/auth";
     <input
       type="file"
       class="file-input file-input-bordered file-input-primary w-full max-w-xs"
+      id="upload"
     />
     <button class="btn btn-primary" type="submit" id="submit">Lưu</button>
   </form>
@@ -57,6 +58,7 @@ import { user } from "@/store/auth";
   const phone = document.getElementById("phone") as HTMLInputElement;
   const email = document.getElementById("email") as HTMLInputElement;
   const button = document.getElementById("submit") as HTMLInputElement;
+  const cv = document.getElementById("upload") as HTMLInputElement;
 
   fetch(`http://localhost:3000/api/user/${window.sessionStorage.getItem("id")}`)
     .then((res) => res.json())
@@ -71,6 +73,10 @@ import { user } from "@/store/auth";
   button.addEventListener("click", (e) => {
     e.preventDefault();
     console.log("test");
+    if (cv.files && cv.files.length > 0) {
+      const formData = new FormData();
+      // formData.append()
+    }
 
     showToast();
   });

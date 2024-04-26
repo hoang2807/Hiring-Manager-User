@@ -16,7 +16,7 @@ const { id, title, description } = Astro.props;
     <Image src={Default} alt="default" />
     <div class="min-h-full overflow-hidden flex-grow text-ellipsis">
       <a href=`/job/${id}` class="block">{title}</a>
-      <a href=`/job/${id}` class="h-full line-clamp-2">{description}</a>
+      <a href=`/job/${id}` class="line-clamp-5">{description}</a>
     </div>
   </div>
 </div>

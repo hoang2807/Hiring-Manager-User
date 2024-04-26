@@ -84,7 +84,6 @@ const enterpriseId = data.enterpriseId;
         <div class="card-body">
           <h2 class="card-title">Chi tiết tin tuyển dụng</h2>
           <hr class="border" />
-
           <h2 class="card-title">Mô tả công việc</h2>
           <div class="mt-2">
             <ul>
@@ -129,9 +128,7 @@ const enterpriseId = data.enterpriseId;
   const enterpriseId = document.getElementById(
     "enterpriseId",
   ) as HTMLInputElement;
-  // apply?.addEventListener("click", () => {
-  //   console.log("test again");
-  // });
+
   const userId = window.sessionStorage.getItem("id") || "";
 
   if (userId == "0") {
