@@ -10,19 +10,7 @@ export default {
   plugins: [require('daisyui')],
   daisyui: {
     themes: [
-      {
-        mytheme: {
-          "primary": "#00bdff",
-          "secondary": "#ff0000",
-          "accent": "#0000ff",
-          "neutral": "#2c2824",
-          "base-100": "#fff9ff",
-          "info": "#006dff",
-          "success": "#00c75b",
-          "warning": "#c98400",
-          "error": "#ff1163",
-        },
-      },
+      'nord'
     ],
   },
 }
