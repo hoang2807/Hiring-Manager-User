@@ -13,11 +13,9 @@ export const $auth = atom<Auth>({
   id: "test",
 });
 
-export function addUser(accessToken: string, id: string) {
+export function addUser(accessToken = "", id = "") {
   $auth.set({ accessToken, id });
 }
-
-let instance;
 
 class User {
   private id: string;
@@ -44,4 +42,5 @@ class User {
   }
 }
 
-export const user = new User();
+const user = new User();
+export default user;

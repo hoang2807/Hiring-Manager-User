@@ -5,6 +5,7 @@ import Pagination from "@/components/Pagination";
 import Search from "@/components/Search";
 import CardJob from "@/components/CardJob.astro";
 import { IJob } from "@/type";
+// import user from "@/store/auth";
 
 const res = await fetch(
   `${import.meta.env.BASE_API_URL}/job/pagination/?page=1&take=6`,
@@ -68,5 +69,5 @@ const job = await res?.data;
   src="https://cdn.socket.io/4.5.0/socket.io.min.js"
   integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k"
   crossorigin="anonymous"></script>
-<script src="/socket.io/socket.io.js" is:inline></script>
+<!-- <script src="/socket.io/socket.io.js" is:inline></script> -->
 <script src="/js/script.js" type="module"></script>

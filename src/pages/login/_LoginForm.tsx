@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { $auth, addUser, user } from "@/store/auth";
+import user, { $auth, addUser } from "@/store/auth";
 
 const LoginForm = () => {
   const [username, setUsername] = useState<String>("");
@@ -19,8 +19,9 @@ const LoginForm = () => {
         user.setId(data.data.user.id);
         user.setToken(data.data.tokens.accessToken);
         console.log(user.getId());
-        console.log(user.getToken());
-        addUser(data.data.tokens.accessToken, data.data.user.id);
+        const cookieString = `id=${data.data.user.id}`;
+        document.cookie = cookieString;
+        // addUser(data.data.tokens.accessToken, data.data.user.id);
         document.location.href = "/";
       })
       .catch((error) => console.log(error.message));
@@ -32,7 +33,7 @@ const LoginForm = () => {
       <span>
         By signing in, you agree to ITviec’s
         <a className="link link-primary">Terms & Conditions</a> and
-        <a className="link link-primary">Privacy Policy</a>
+        <a className="link link-primary"> Privacy Policy</a>
         in relation to your privacy information.
       </span>
       <div className="card shrink-0 w-full shadow-2xl bg-base-100 mt-4">
