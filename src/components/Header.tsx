@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { $auth, user } from "@/store/auth";
+import user, { $auth } from "@/store/auth";
 
 const Header = () => {
   const [id, setId] = useState("");

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import user, { $auth, addUser } from "@/store/auth";
+// import user, { $auth, addUser } from "@/store/auth";
 
 const LoginForm = () => {
   const [username, setUsername] = useState<String>("");
@@ -16,9 +16,8 @@ const LoginForm = () => {
       .then((res) => res.json())
       .then((data) => {
         window.sessionStorage.setItem("id", data.data.user.id);
-        user.setId(data.data.user.id);
-        user.setToken(data.data.tokens.accessToken);
-        console.log(user.getId());
+        // user.setId(data.data.user.id);
+        // user.setToken(data.data.tokens.accessToken);
         const cookieString = `id=${data.data.user.id}`;
         document.cookie = cookieString;
         // addUser(data.data.tokens.accessToken, data.data.user.id);

@@ -19,7 +19,7 @@ if (Astro.cookies.has("id")) {
 ---
 
 <Layout title="profile">
-  <form class="bg-[#fff] p-5 w-1/2 mx-auto mt-16 flex flex-col gap-4">
+  <form class="bg-[#fff] p-5 w-1/2 mx-auto my-16 flex flex-col gap-4">
     <span class="mt-4">Họ tên</span>
     <input
       type="text"
@@ -59,13 +59,22 @@ if (Astro.cookies.has("id")) {
         placeholder="Email"
         id="email"
         value={email}
+        disabled
       />
     </label>
+    <span class="mt-4">Upload avatar</span>
+    <input
+      type="file"
+      class="file-input file-input-bordered file-input-primary w-full max-w-xs"
+      id="avatar"
+      accept="image/png, image/jpeg"
+    />
     <span class="mt-4">Upload CV</span>
     <input
       type="file"
       class="file-input file-input-bordered file-input-primary w-full max-w-xs"
       id="upload"
+      accept="application/pdf"
     />
     <button class="btn btn-primary" type="submit" id="submit">Lưu</button>
   </form>
@@ -79,20 +88,39 @@ if (Astro.cookies.has("id")) {
 <script>
   const name = document.getElementById("name") as HTMLInputElement;
   const phone = document.getElementById("phone") as HTMLInputElement;
-  const email = document.getElementById("email") as HTMLInputElement;
   const button = document.getElementById("submit") as HTMLInputElement;
   const cv = document.getElementById("upload") as HTMLInputElement;
+  const avatar = document.getElementById("avatar") as HTMLInputElement;
 
   button.addEventListener("click", (e) => {
     e.preventDefault();
-    console.log("test");
+
+    let file1, file2;
     if (cv.files && cv.files.length > 0) {
-      const formData = new FormData();
-      // formData.append()
-    }
+      file1 = cv.files[0];
+    } else file1 = "";
+
+    if (avatar.files && avatar.files.length > 0) {
+      file2 = avatar.files[0];
+    } else file2 = "";
+    const formData = new FormData();
+    formData.append("id", window.sessionStorage.getItem("id") || "");
+    formData.append("username", name.value);
+    formData.append("phone", phone.value);
+    formData.append("avatar", file2);
+    formData.append("cv", file1);
+
+    fetch("http://localhost:3000/api/user", {
+      method: "put",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
 
     showToast();
   });
+
   function showToast() {
     const toast = document.querySelector(
       ".toast:where(.toast-top)",
