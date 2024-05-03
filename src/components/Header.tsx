@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useStore } from "@nanostores/react";
-import user, { $auth } from "@/store/auth";
+// import { useStore } from "@nanostores/react";
+// import user, { $auth } from "@/store/auth";
 
 const Header = () => {
   const [id, setId] = useState("");
+  const [avatar, setAvatar] = useState("");
 
-  const store = useStore($auth);
+  // const store = useStore($auth);
 
   useEffect(() => {
     const id = window.sessionStorage.getItem("id") || "";
+
+    fetch(`http://localhost:3000/api/user/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.data.avatar) setAvatar(data.data.avatar);
+      })
+      .catch((error) => console.log(error));
+
     setId(id);
   }, []);
   return (
@@ -75,10 +85,17 @@ const Header = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img
-                    alt="Tailwind CSS Navbar component"
-                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                  />
+                  {avatar ? (
+                    <img
+                      alt="Tailwind CSS Navbar component"
+                      src={`http://localhost:3000/public/${avatar}`}
+                    />
+                  ) : (
+                    <img
+                      alt="Tailwind CSS Navbar component"
+                      src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                  )}
                 </div>
               </div>
               <ul
