@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 const Header = () => {
   const [id, setId] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [number, setNumber] = useState(0);
 
   // const store = useStore($auth);
 
@@ -75,21 +76,23 @@ const Header = () => {
                     <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
                     <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
                   </svg>
-                  <span className="badge badge-sm indicator-item">8</span>
+                  {number ? (
+                    <span className="badge badge-sm indicator-item">
+                      {number}
+                    </span>
+                  ) : (
+                    <span className="badge badge-sm indicator-item bg-transparent border-transparent"></span>
+                  )}
                 </div>
               </div>
               <div
                 tabIndex={0}
-                className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-[#fff] shadow"
+                className="mt-3 z-[1] card card-compact dropdown-content w-64 max-h-72 bg-[#fff] shadow"
               >
                 <div className="card-body">
-                  <span className="font-bold text-lg">8 Items</span>
-                  <span className="text-info">Subtotal: $999</span>
-                  <div className="card-actions">
-                    <button className="btn btn-primary btn-block">
-                      View cart
-                    </button>
-                  </div>
+                  {/* <span className="font-bold text-lg">8 Items</span>
+                  <span className="text-info">Subtotal: $999</span> */}
+                  <span>Nha tuyen dung da xem ho so cua ban</span>
                 </div>
               </div>
             </div>
