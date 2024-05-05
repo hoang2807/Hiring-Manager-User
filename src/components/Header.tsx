@@ -1,3 +1,4 @@
+import { socket } from "@/socket";
 import React, { useEffect, useState } from "react";
 // import { useStore } from "@nanostores/react";
 // import user, { $auth } from "@/store/auth";
@@ -21,6 +22,20 @@ const Header = () => {
 
     setId(id);
   }, []);
+
+  useEffect(() => {
+    const id = window.sessionStorage.getItem("id") || "";
+    console.log("socket");
+    socket.on("connect", () => {
+      console.log("connect");
+    });
+
+    socket.on(`notification-${id}`, (data) => {
+      console.log("data socket");
+      console.log(data);
+    });
+  }, []);
+
   return (
     <header className="navbar bg-[#1D232A] sticky top-0 z-50">
       <div className="container mx-auto max-w-[1220px] flex justify-between">
