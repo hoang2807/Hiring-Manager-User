@@ -33,13 +33,35 @@ const Header = () => {
 
     socket.on(`notification-${id}`, (data) => {
       console.log("data socket");
+      showToast();
       console.log(data);
     });
   }, []);
 
+  function showToast() {
+    const toast = document.querySelector(
+      ".toast:where(.toast-top)",
+    ) as HTMLInputElement;
+    toast.style.display = "block";
+    toast.style.animation = "slideInLeft 1s";
+
+    setTimeout(() => {
+      toast.style.animation = "slideInRight 1s";
+    }, 2000);
+
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 3000);
+  }
+
   return (
     <header className="navbar bg-[#1D232A] sticky top-0 z-50">
-      <div className="container mx-auto max-w-[1220px] flex justify-between">
+      <div className="toast toast-top toast-end">
+        <div className="alert alert-info">
+          <span>Bạn có thông báo mới</span>
+        </div>
+      </div>
+      <div className="container mx-auto max-w-[1220px] flex justify-between ">
         <a className="text-xl text-[#fff]" href="/">
           TopIT
         </a>
@@ -53,7 +75,7 @@ const Header = () => {
             </button>
           </div>
         ) : (
-          <div className="flex-none">
+          <div className="flex">
             <div className="dropdown">
               <div
                 tabIndex={0}
@@ -100,9 +122,9 @@ const Header = () => {
               <div
                 tabIndex={0}
                 role="button"
-                className="btn btn-ghost btn-circle avatar"
+                className="btn btn-ghost btn-circle avatar online"
               >
-                <div className="w-10 rounded-full">
+                <div className="w-16 rounded-full">
                   {avatar ? (
                     <img
                       alt="Tailwind CSS Navbar component"

@@ -56,6 +56,11 @@ const { title, description } = Astro.props;
         transition: all 0.3s ease;
       }
 
+      .avatar.online:before {
+        background-color: green;
+        outline-color: green;
+      }
+
       @keyframes slideInLeft {
         from {
           opacity: 0;

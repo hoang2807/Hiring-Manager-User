@@ -9,7 +9,6 @@ let phone;
 let email;
 if (Astro.cookies.has("id")) {
   const id = Astro.cookies.get("id")?.value;
-
   const res = await fetch(`${import.meta.env.BASE_API_URL}/user/${id}`);
   const data = await res.json();
   fullName = data.data.fullName;
@@ -76,6 +75,48 @@ if (Astro.cookies.has("id")) {
       id="upload"
       accept="application/pdf"
     />
+    <div class="flex gap-3 items-center">
+      <input
+        type="text"
+        placeholder="Skills"
+        class="input input-bordered w-full max-w-xs skills"
+        id="skills"
+      />
+      <button
+        class="btn btn-circle btn-outline btn-sm"
+        type="button"
+        id="add-skill"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          ><path d="M11 11v-11h1v11h11v1h-11v11h-1v-11h-11v-1h11z"></path></svg
+        >
+      </button>
+    </div>
+    <div class="flex flex-wrap gap-3 items-center">
+      <div class="flex flex-wrap gap-3 items-center" id="list-skill">
+        <!-- <span class="badge badge-primary badge-outline badge-lg item"
+          >default</span
+        > -->
+      </div>
+      <button
+        class="btn btn-circle btn-outline btn-sm"
+        type="button"
+        id="remove-skill"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"><path d="M0 12v1h23v-1h-23z"></path></svg
+        >
+      </button>
+    </div>
     <button class="btn btn-primary" type="submit" id="submit">Lưu</button>
   </form>
   <div class="toast toast-top toast-end">
@@ -83,57 +124,76 @@ if (Astro.cookies.has("id")) {
       <span>Message sent successfully.</span>
     </div>
   </div>
+
+  <script>
+    const name = document.getElementById("name") as HTMLInputElement;
+    const phone = document.getElementById("phone") as HTMLInputElement;
+    const button = document.getElementById("submit") as HTMLButtonElement;
+    const cv = document.getElementById("upload") as HTMLInputElement;
+    const avatar = document.getElementById("avatar") as HTMLInputElement;
+    const skills = document.getElementById("skills") as HTMLInputElement;
+    const addSkill = document.getElementById("add-skill") as HTMLButtonElement;
+    const removeSkill = document.getElementById(
+      "add-skill",
+    ) as HTMLButtonElement;
+    const listSkill = document.getElementById("list-skill") as HTMLDivElement;
+    const item = document.querySelectorAll(
+      ".item",
+    ) as NodeListOf<HTMLSpanElement>;
+    const array: string[] = [];
+
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      let file1, file2;
+      if (cv.files && cv.files.length > 0) {
+        file1 = cv.files[0];
+      } else file1 = "";
+
+      if (avatar.files && avatar.files.length > 0) {
+        file2 = avatar.files[0];
+      } else file2 = "";
+      const formData = new FormData();
+      formData.append("id", window.sessionStorage.getItem("id") || "");
+      formData.append("username", name.value);
+      formData.append("phone", phone.value);
+      formData.append("avatar", file2);
+      formData.append("cv", file1);
+      formData.append("skills", array.toString());
+      console.log(formData);
+
+      fetch("http://localhost:3000/api/user", {
+        method: "put",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
+
+      showToast();
+    });
+
+    addSkill.addEventListener("click", () => {
+      listSkill.innerHTML += `
+      <span class="badge badge-primary badge-outline badge-lg item">${skills.value}</span>`;
+      array.push(skills.value);
+      skills.value = "";
+    });
+
+    function showToast() {
+      const toast = document.querySelector(
+        ".toast:where(.toast-top)",
+      ) as HTMLInputElement;
+      toast.style.display = "block";
+      toast.style.animation = "slideInLeft 1s";
+
+      setTimeout(() => {
+        toast.style.animation = "slideInRight 1s";
+      }, 2000);
+
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 3000);
+    }
+  </script>
 </Layout>
-
-<script>
-  const name = document.getElementById("name") as HTMLInputElement;
-  const phone = document.getElementById("phone") as HTMLInputElement;
-  const button = document.getElementById("submit") as HTMLInputElement;
-  const cv = document.getElementById("upload") as HTMLInputElement;
-  const avatar = document.getElementById("avatar") as HTMLInputElement;
-
-  button.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    let file1, file2;
-    if (cv.files && cv.files.length > 0) {
-      file1 = cv.files[0];
-    } else file1 = "";
-
-    if (avatar.files && avatar.files.length > 0) {
-      file2 = avatar.files[0];
-    } else file2 = "";
-    const formData = new FormData();
-    formData.append("id", window.sessionStorage.getItem("id") || "");
-    formData.append("username", name.value);
-    formData.append("phone", phone.value);
-    formData.append("avatar", file2);
-    formData.append("cv", file1);
-
-    fetch("http://localhost:3000/api/user", {
-      method: "put",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
-
-    showToast();
-  });
-
-  function showToast() {
-    const toast = document.querySelector(
-      ".toast:where(.toast-top)",
-    ) as HTMLInputElement;
-    toast.style.display = "block";
-    toast.style.animation = "slideInLeft 1s";
-
-    setTimeout(() => {
-      toast.style.animation = "slideInRight 1s";
-    }, 2000);
-
-    setTimeout(() => {
-      toast.style.display = "none";
-    }, 3000);
-  }
-</script>
