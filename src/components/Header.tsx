@@ -67,12 +67,12 @@ const Header = () => {
         </a>
         {!id ? (
           <div className="flex gap-2">
-            <button className="btn btn-primary">
-              <a href="/login">Login</a>
-            </button>
-            <button className="btn btn-accent">
-              <a href="/signup">Register</a>
-            </button>
+            <a href="/login" className="btn btn-primary">
+              Login
+            </a>
+            <a href="/signup" className="btn btn-accent">
+              Register
+            </a>
           </div>
         ) : (
           <div className="flex">
