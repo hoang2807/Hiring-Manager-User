@@ -7,10 +7,12 @@ import Layout from "@/layouts/Layout.astro";
 let fullName;
 let phone;
 let email;
+let skills;
 if (Astro.cookies.has("id")) {
   const id = Astro.cookies.get("id")?.value;
   const res = await fetch(`${import.meta.env.BASE_API_URL}/user/${id}`);
   const data = await res.json();
+  skills = data.data.skills.split(",");
   fullName = data.data.fullName;
   phone = data.data.phone_number;
   email = data.data.email;
@@ -99,9 +101,13 @@ if (Astro.cookies.has("id")) {
     </div>
     <div class="flex flex-wrap gap-3 items-center">
       <div class="flex flex-wrap gap-3 items-center" id="list-skill">
-        <!-- <span class="badge badge-primary badge-outline badge-lg item"
-          >default</span
-        > -->
+        {
+          skills.map((item: string) => (
+            <span class="badge badge-primary badge-outline badge-lg item">
+              {item}
+            </span>
+          ))
+        }
       </div>
       <button
         class="btn btn-circle btn-outline btn-sm"
@@ -134,13 +140,17 @@ if (Astro.cookies.has("id")) {
     const skills = document.getElementById("skills") as HTMLInputElement;
     const addSkill = document.getElementById("add-skill") as HTMLButtonElement;
     const removeSkill = document.getElementById(
-      "add-skill",
+      "remove-skill",
     ) as HTMLButtonElement;
     const listSkill = document.getElementById("list-skill") as HTMLDivElement;
-    const item = document.querySelectorAll(
-      ".item",
-    ) as NodeListOf<HTMLSpanElement>;
+    // const item = document.querySelectorAll(
+    //   ".item",
+    // ) as NodeListOf<HTMLSpanElement>;
     const array: string[] = [];
+    function hideRemoveButton() {
+      if (!listSkill.lastElementChild) removeSkill.classList.add("hidden");
+    }
+    hideRemoveButton();
 
     button.addEventListener("click", (e) => {
       e.preventDefault();
@@ -178,6 +188,15 @@ if (Astro.cookies.has("id")) {
       <span class="badge badge-primary badge-outline badge-lg item">${skills.value}</span>`;
       array.push(skills.value);
       skills.value = "";
+      if (listSkill.childElementCount > 0)
+        removeSkill.classList.remove("hidden");
+    });
+
+    removeSkill.addEventListener("click", () => {
+      if (listSkill.lastElementChild) {
+        listSkill.removeChild(listSkill.lastElementChild);
+        hideRemoveButton();
+      }
     });
 
     function showToast() {
