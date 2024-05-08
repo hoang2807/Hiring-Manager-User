@@ -83,9 +83,9 @@ const Search = () => {
         <div className="flex gap-4 items-center">
           <p className="text-[#fff]">Mọi người đang tìm kiếm:</p>
           {recommend?.map((e, i) => (
-            <button className="badge badge-neutral p-4 text-base" key={i}>
+            <a className="badge badge-neutral p-4 text-base" key={i}>
               {e}
-            </button>
+            </a>
           ))}
         </div>
       </div>

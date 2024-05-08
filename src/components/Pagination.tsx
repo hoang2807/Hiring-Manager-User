@@ -15,7 +15,6 @@ const Pagination = (props: Props) => {
     fetch(`http://localhost:3000/api/job/pagination/?page=${page + 1}&take=6`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.data.length > 0) setPageThree(true);
       })
       .catch((error) => console.error(error));

@@ -16,7 +16,6 @@ const Header = () => {
     fetch(`http://localhost:3000/api/user/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.data.avatar) setAvatar(data.data.avatar);
       })
       .catch((error) => console.log(error));
@@ -52,6 +51,11 @@ const Header = () => {
     setTimeout(() => {
       toast.style.display = "none";
     }, 3000);
+  }
+
+  function logout() {
+    window.sessionStorage.clear();
+    window.location.href = "/login";
   }
 
   return (
@@ -149,7 +153,7 @@ const Header = () => {
                   </a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <button onClick={logout}>Logout</button>
                 </li>
               </ul>
             </div>
