@@ -1,5 +1,5 @@
 ---
-import Search from "@/components/Search.astro";
+import Search from "@/components/Search";
 import Layout from "@/layouts/Layout.astro";
 import { formatStringToArray } from "@/utils";
 
@@ -21,7 +21,7 @@ const enterpriseId = data.enterpriseId;
 ---
 
 <Layout title="job">
-  <Search />
+  <Search client:idle />
   <div class="mx-auto max-w-[1220px] mt-8 flex flex-col items-center">
     <div class="w-[67%] flex flex-col gap-6">
       <div class="flex flex-col gap-4 bg-[#fff] rounded p-6">

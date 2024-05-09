@@ -60,12 +60,12 @@ const Search = () => {
               onChange={(e) => showHint(e.target.value)}
             />
             <div className="flex flex-col p-4 bg-white w-full h-24 rounded-md z-20 absolute right-0 invisible myTooltip-item bg-[#fff] text-[#000] overflow-scroll">
-              {/* <a href="" className="font-semibold pb-4">
-                Help
-              </a> */}
               <ul className="list-disc space-y-2">
                 {tooltip?.map((e) => (
-                  <li className="flex items-start" key={e.id}>
+                  <li
+                    className="flex items-start hover:bg-[#808080] cursor-pointer px-4 py-1"
+                    key={e.id}
+                  >
                     <a
                       href={`/job/search/${e.id}`}
                       className="font-medium text-sm text-gray-500 hover:text-black"
