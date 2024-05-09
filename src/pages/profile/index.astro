@@ -102,7 +102,7 @@ if (Astro.cookies.has("id")) {
     <div class="flex flex-wrap gap-3 items-center">
       <div class="flex flex-wrap gap-3 items-center" id="list-skill">
         {
-          skills.map((item: string) => (
+          skills?.map((item: string) => (
             <span class="badge badge-primary badge-outline badge-lg item">
               {item}
             </span>

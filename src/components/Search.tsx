@@ -51,12 +51,12 @@ const Search = () => {
               </option>
             ))}
           </select>
-          <div className="relative inline-block myTooltip bg-[#fff] w-full max-w-[33rem] h-14">
+          <div className="relative inline-block myTooltip bg-[#fff] w-full  h-14">
             <input
               id="input-search"
               type="text"
               placeholder="Nhập theo từ khóa kỹ năng"
-              className="input input-bordered w-full max-w-[33rem] h-14 text-[#000]"
+              className="input input-bordered w-full h-14 text-[#000]"
               onChange={(e) => showHint(e.target.value)}
             />
             <div className="flex flex-col p-4 bg-white w-full h-24 rounded-md z-20 absolute right-0 invisible myTooltip-item bg-[#fff] text-[#000] overflow-scroll">
