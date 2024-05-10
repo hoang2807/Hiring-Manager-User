@@ -4,8 +4,6 @@ import IconSvg from "@/components/IconSvg.astro";
 import Pagination from "@/components/Pagination";
 import Search from "@/components/Search";
 import CardJob from "@/components/CardJob.astro";
-import { Image } from "astro:assets";
-import Default from "@/assets/images/logo_default.webp";
 import { IJob } from "@/type";
 
 const { page } = Astro.params;
@@ -65,7 +63,7 @@ const job = data.data;
 
   <div class="mx-auto max-w-[1220px] mt-8 flex justify-center">
     <Pagination
-      page={parseInt(page || 1)}
+      page={parseInt(`${page}`) || 1}
       length={parseInt(data.data.length)}
       client:visible
     />

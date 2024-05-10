@@ -1,6 +1,6 @@
 ---
 import PostCard from "@/components/PostCard.astro";
-import Pagination from "@/components/Pagination";
+// import Pagination from "@/components/Pagination";
 
 import { formatBlogPosts } from "@/utils/index";
 
@@ -15,7 +15,18 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
 
 export const prerender = true;
 
-const { page } = Astro.props;
+interface PageProps {
+  data: {
+    frontmatter: any;
+    url: string;
+  }[];
+  url: {
+    prev: string | null;
+    next: string | null;
+  };
+}
+
+const { page }: { page: PageProps } = Astro.props;
 console.log(page);
 ---
 
@@ -28,5 +39,5 @@ console.log(page);
       ))
     }
   </div>
-  <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} client:visible />
+  <!-- <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} client:visible /> -->
 </section>
