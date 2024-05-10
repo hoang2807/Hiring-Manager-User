@@ -1,5 +1,5 @@
 ---
-import Search from "@/components/Search.astro";
+import Search from "@/components/Search";
 import Layout from "@/layouts/Layout.astro";
 import { formatStringToArray } from "@/utils";
 
@@ -9,24 +9,32 @@ const res = await (
   await fetch(`${import.meta.env.BASE_API_URL}/job/${id}`)
 ).json();
 const data = res.data;
-
 const skills = formatStringToArray(data.skills, ",");
 const job_description = formatStringToArray(data.job_description, ";");
 const job_requirements = formatStringToArray(data.job_requirements, ";");
 const benefits = formatStringToArray(data.benefits, ";");
 const position = data.position;
 const salary = data.salary;
-const location = data.locationon;
+const location = data.location;
+const jobId = data.id;
+const enterpriseId = data.enterpriseId;
 ---
 
 <Layout title="job">
-  <Search />
-  <div class="mx-auto max-w-[1220px] mt-8 flex flex-col items-center">
-    <div class="w-[67%] flex flex-col gap-6">
+  <Search client:idle />
+  <div class="mx-auto max-w-[1220px] mt-8 flex justify-between gap-4">
+    <div class="w-2/3 flex flex-col gap-6">
       <div class="flex flex-col gap-4 bg-[#fff] rounded p-6">
         <h1>
           {data.title}
         </h1>
+        <input type="text" value={jobId} id="jobId" class="hidden" />
+        <input
+          type="text"
+          value={enterpriseId}
+          id="enterpriseId"
+          class="hidden"
+        />
         <div class="flex items-center gap-2">
           <div class="badge badge-primary p-3">{position}</div>
           <div class="badge badge-secondary p-3">{salary}</div>
@@ -44,11 +52,14 @@ const location = data.locationon;
             <input
               type="file"
               class="file-input file-input-bordered w-full max-w-xs mt-5"
+              id="cv"
             />
             <div class="modal-action">
               <form method="dialog">
                 <!-- if there is a button in form, it will close the modal -->
-                <button class="btn btn-primary">Apply</button>
+                <button class="btn btn-primary" type="submit" id="apply-cv"
+                  >Apply</button
+                >
                 <button class="btn">Close</button>
               </form>
             </div>
@@ -72,13 +83,12 @@ const location = data.locationon;
         <div class="card-body">
           <h2 class="card-title">Chi tiết tin tuyển dụng</h2>
           <hr class="border" />
-
           <h2 class="card-title">Mô tả công việc</h2>
           <div class="mt-2">
             <ul>
               {
                 job_description?.map((item: string) => (
-                  <li class="leading-8">- {item.trim()}</li>
+                  <li class="leading-8">{item.trim()}</li>
                 ))
               }
             </ul>
@@ -88,7 +98,7 @@ const location = data.locationon;
             <ul>
               {
                 job_requirements?.map((item: string) => (
-                  <li class="leading-8">- {item.trim()}</li>
+                  <li class="leading-8"> {item.trim()}</li>
                 ))
               }
             </ul>
@@ -98,7 +108,7 @@ const location = data.locationon;
             <ul>
               {
                 benefits?.map((item: string) => (
-                  <li class="leading-8">- {item.trim()}</li>
+                  <li class="leading-8"> {item.trim()}</li>
                 ))
               }
             </ul>
@@ -106,17 +116,57 @@ const location = data.locationon;
         </div>
       </div>
     </div>
+    <div class="w-1/3 flex flex-col gap-6">
+      <div class="flex flex-col gap-4 bg-[#fff] rounded p-6">
+        <h1>
+          {data.title}
+        </h1>
+        <input type="text" value={jobId} id="jobId" class="hidden" />
+        <input
+          type="text"
+          value={enterpriseId}
+          id="enterpriseId"
+          class="hidden"
+        />
+        <div class="badge">Hạn nộp hồ sơ: {data.deadline_date}</div>
+      </div>
+    </div>
   </div>
 </Layout>
 
 <script>
   const apply = document.getElementById("btn-apply");
-  // apply?.addEventListener("click", () => {
-  //   console.log("test again");
-  //   apply.setAttribute("disabled", "");
-  // });
+  const apply_cv = document.getElementById("apply-cv");
+  const cv = document.getElementById("cv") as HTMLInputElement;
+  const jobId = document.getElementById("jobId") as HTMLInputElement;
+  const enterpriseId = document.getElementById(
+    "enterpriseId",
+  ) as HTMLInputElement;
 
-  if (window.sessionStorage.getItem("id") == "0") {
+  const userId = window.sessionStorage.getItem("id") || "";
+
+  if (userId == "0") {
     apply?.setAttribute("disabled", "");
   }
+
+  apply_cv?.addEventListener("click", () => {
+    if (cv.files && cv.files.length > 0) {
+      const formData = new FormData();
+      formData.append("jobId", jobId.value);
+      formData.append("enterpriseId", enterpriseId.value);
+      formData.append("userId", userId);
+      formData.append("file", cv.files[0]);
+      console.log(formData);
+      fetch("http://localhost:3000/api/application", {
+        method: "post",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+    } else {
+      // No files selected, handle this case accordingly
+      console.log("No files selected.");
+    }
+  });
 </script>

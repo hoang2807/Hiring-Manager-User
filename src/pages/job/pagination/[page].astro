@@ -23,8 +23,8 @@ const job = data.data;
     <h2 class="text-2xl font-extrabold leading-none tracking-tight">
       Công cụ tốt nhất cho hành trang ứng tuyển của bạn
     </h2>
-    <div class="grid grid-cols-2 gap-12 mt-6">
-      <div class="flex items-center gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-1 gap-12 mt-6">
+      <div class="flex sm:flex-col items-center gap-4">
         <IconSvg icon="user" />
         <div class="flex flex-col gap-2 justify-between h-full">
           <span class="text-[#000] font-medium">Hồ sơ cá nhân</span>
@@ -35,7 +35,7 @@ const job = data.data;
           <a class="btn btn-accent w-1/3" href="/profile">Cập nhật hồ sơ</a>
         </div>
       </div>
-      <div class="flex items-center gap-4">
+      <div class="flex sm:flex-col items-center gap-4">
         <IconSvg icon="blog" />
         <div class="flex flex-col gap-2 justify-between h-full">
           <span class="text-[#000] font-medium">Blog về IT</span>
@@ -49,7 +49,7 @@ const job = data.data;
   </div>
 
   <div class="mx-auto max-w-[1220px] mt-8 flex flex-col items-center">
-    <div class="grid grid-cols-3 gap-4 w-full">
+    <div class="grid grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 gap-4 w-full">
       {
         job?.map((item: IJob) => (
           <CardJob

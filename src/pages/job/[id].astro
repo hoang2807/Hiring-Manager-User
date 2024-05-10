@@ -22,8 +22,8 @@ const enterpriseId = data.enterpriseId;
 
 <Layout title="job">
   <Search client:idle />
-  <div class="mx-auto max-w-[1220px] mt-8 flex flex-col items-center">
-    <div class="w-[67%] flex flex-col gap-6">
+  <div class="mx-auto max-w-[1220px] mt-8 flex justify-between gap-4">
+    <div class="w-2/3 flex flex-col gap-6">
       <div class="flex flex-col gap-4 bg-[#fff] rounded p-6">
         <h1>
           {data.title}
@@ -114,6 +114,21 @@ const enterpriseId = data.enterpriseId;
             </ul>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="w-1/3 flex flex-col gap-6">
+      <div class="flex flex-col gap-4 bg-[#fff] rounded p-6">
+        <h1>
+          {data.title}
+        </h1>
+        <input type="text" value={jobId} id="jobId" class="hidden" />
+        <input
+          type="text"
+          value={enterpriseId}
+          id="enterpriseId"
+          class="hidden"
+        />
+        <div class="badge">Hạn nộp hồ sơ: {data.deadline_date}</div>
       </div>
     </div>
   </div>
