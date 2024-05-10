@@ -20,4 +20,5 @@ export interface IJob {
   benefits: string;
   deadline_date: string;
   enterpriseId: number;
+  image: string;
 }

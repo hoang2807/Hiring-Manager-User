@@ -56,6 +56,7 @@ const job = data.data;
             id={item.id}
             title={item.title}
             description={item.job_description}
+            enterpriseId={item.enterpriseId}
           />
         ))
       }
@@ -64,7 +65,7 @@ const job = data.data;
 
   <div class="mx-auto max-w-[1220px] mt-8 flex justify-center">
     <Pagination
-      page={parseInt(page)}
+      page={parseInt(page || 1)}
       length={parseInt(data.data.length)}
       client:visible
     />

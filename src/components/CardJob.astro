@@ -6,14 +6,25 @@ interface IData {
   id: number;
   title: string;
   description: string;
+  enterpriseId: number;
 }
 
-const { id, title, description } = Astro.props;
+const { id, title, description, enterpriseId, image } = Astro.props;
+const data = await (
+  await fetch(`${import.meta.env.BASE_API_URL}/enterprise/${enterpriseId}`)
+).json();
+const img = `${import.meta.env.BASE_BACKEND_URL}/${data?.data.image?.replace("upload", "public")}`;
 ---
 
 <div class="bg-[#fff] rounded p-3">
-  <div class="flex">
-    <Image src={Default} alt="default" />
+  <div class="flex gap-2">
+    {
+      data?.data?.image ? (
+        <img src={img} alt="default" class="w-[120px] h-[120px]" />
+      ) : (
+        <Image src={Default} alt="default" class="w-[120px] h-[120px]" />
+      )
+    }
     <div class="min-h-full overflow-hidden flex-grow text-ellipsis">
       <a href=`/job/${id}` class="block text-lg mb-2 font-semibold">{title}</a>
       <a href=`/job/${id}` class="line-clamp-4">{description}</a>
