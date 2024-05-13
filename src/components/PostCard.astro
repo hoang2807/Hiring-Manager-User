@@ -12,7 +12,7 @@ const { category, title, author, date, image, description } = frontmatter;
 
 <article class="card">
   <small>
-    <a href={`/category/${slugify(category)}`} class="badge">{category}</a>
+    <a href={`/blog/category/${slugify(category)}`} class="badge">{category}</a>
   </small>
   <a href={url} aria-hidden="true" tabindex="-1">
     <Image
@@ -28,7 +28,7 @@ const { category, title, author, date, image, description } = frontmatter;
     <div>
       <Tag class="h3"><a href={url}>{title}</a></Tag>
       <small>
-        by <a href={`/author/${slugify(author)}`}>{author}</a> • {
+        by <a href={`/blog/author/${slugify(author)}`}>{author}</a> • {
           formatDate(date)
         }
       </small>

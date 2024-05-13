@@ -1,7 +1,6 @@
 ---
 import MainHead from "@/layouts/MainHead.astro";
 import Footer from "@/components/Footer.astro";
-import Header from "@/components/Header";
 
 import "../styles/global.css";
 import "../styles/alternate.css";
@@ -18,7 +17,9 @@ const { title, description = "My blog" } = Astro.props;
     <MainHead title={title} description={description} />
   </head>
   <body>
-    <!-- <Header /> -->
+    <div class="navbar bg-[#1D232A]">
+      <a class="btn btn-ghost text-xl" href="/">TopIT</a>
+    </div>
     <main>
       <slot />
     </main>

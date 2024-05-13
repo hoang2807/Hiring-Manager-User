@@ -18,6 +18,9 @@ const salary = data.salary;
 const location = data.location;
 const jobId = data.id;
 const enterpriseId = data.enterpriseId;
+const deadline_date = data.deadline_date;
+const checkDate =
+  new Date() > new Date(deadline_date?.split("/")?.reverse()?.join("/"));
 const userId = Astro.cookies.get("id")?.value;
 ---
 
@@ -43,7 +46,11 @@ const userId = Astro.cookies.get("id")?.value;
         </div>
         <div class="badge">Hạn nộp hồ sơ: {data.deadline_date}</div>
         {
-          userId ? (
+          checkDate ? (
+            <div class="badge badge-neutral w-full py-5 text-xl font-semibold">
+              Đã hết hạn
+            </div>
+          ) : userId ? (
             <button
               class="btn btn-primary"
               id="btn-apply"
@@ -167,6 +174,16 @@ const userId = Astro.cookies.get("id")?.value;
       formData.append("enterpriseId", enterpriseId.value);
       formData.append("userId", userId);
       formData.append("file", cv.files[0]);
+      formData.append(
+        "fullName",
+        window.sessionStorage.getItem("fullName") || "",
+      );
+      formData.append("email", window.sessionStorage.getItem("email") || "");
+      formData.append(
+        "phone_number",
+        window.sessionStorage.getItem("phone_number") || "",
+      );
+
       console.log(formData);
       fetch("http://localhost:3000/api/application", {
         method: "post",

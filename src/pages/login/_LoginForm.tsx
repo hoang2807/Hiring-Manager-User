@@ -16,6 +16,12 @@ const LoginForm = () => {
       .then((res) => res.json())
       .then((data) => {
         window.sessionStorage.setItem("id", data.data.user.id);
+        window.sessionStorage.setItem("fullName", data.data.user.fullName);
+        window.sessionStorage.setItem("email", data.data.user.email);
+        window.sessionStorage.setItem(
+          "phone_number",
+          data.data.user.phone_number,
+        );
         // user.setId(data.data.user.id);
         // user.setToken(data.data.tokens.accessToken);
         const cookieString = `id=${data.data.user.id}`;
