@@ -55,6 +55,7 @@ const Header = () => {
 
   function logout() {
     window.sessionStorage.clear();
+    window.document.cookie = "id=";
     window.location.href = "/login";
   }
 

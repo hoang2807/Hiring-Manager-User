@@ -18,6 +18,7 @@ const salary = data.salary;
 const location = data.location;
 const jobId = data.id;
 const enterpriseId = data.enterpriseId;
+const userId = Astro.cookies.get("id")?.value;
 ---
 
 <Layout title="job">
@@ -41,11 +42,21 @@ const enterpriseId = data.enterpriseId;
           <div class="badge badge-accent p-3">{location}</div>
         </div>
         <div class="badge">Hạn nộp hồ sơ: {data.deadline_date}</div>
-        <button
-          class="btn btn-primary"
-          id="btn-apply"
-          onclick="my_modal_1.showModal()">Apply Now</button
-        >
+        {
+          userId ? (
+            <button
+              class="btn btn-primary"
+              id="btn-apply"
+              onclick="my_modal_1.showModal()"
+            >
+              Apply Now
+            </button>
+          ) : (
+            <div class="badge badge-neutral w-full py-5 text-xl font-semibold">
+              Đăng nhập để apply
+            </div>
+          )
+        }
         <dialog id="my_modal_1" class="modal">
           <div class="modal-box">
             <h3 class="font-bold text-lg">Chọn file để ứng tuyển!</h3>
