@@ -6,22 +6,19 @@ import React, { useEffect, useState } from "react";
 const Header = () => {
   const [id, setId] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [number, setNumber] = useState(0);
+  const [status, setStatus] = useState(false);
+  const [notification, setNotification] = useState([]);
 
   // const store = useStore($auth);
 
   useEffect(() => {
     const id = window.sessionStorage.getItem("id") || "";
 
-    fetch(`http://localhost:3000/api/user/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.data.avatar) setAvatar(data.data.avatar);
-      })
-      .catch((error) => console.log(error));
+    getAvatar(id);
+    getNotification(id);
 
     setId(id);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const id = window.sessionStorage.getItem("id") || "";
@@ -33,9 +30,26 @@ const Header = () => {
     socket.on(`notification-${id}`, (data) => {
       console.log("data socket");
       showToast();
+      setStatus(true);
       console.log(data);
     });
   }, []);
+
+  function getAvatar(id: string) {
+    fetch(`http://localhost:3000/api/user/${id}`)
+      .then((res) => res.json())
+      .then((data) => setAvatar(data.data.avatar))
+      .catch((error) => console.error(error));
+  }
+
+  function getNotification(id: string) {
+    fetch(`http://localhost:3000/api/notification/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setNotification(data.data);
+      })
+      .catch((error) => console.error(error));
+  }
 
   function showToast() {
     const toast = document.querySelector(
@@ -86,6 +100,9 @@ const Header = () => {
                 tabIndex={0}
                 role="button"
                 className="btn btn-ghost btn-circle"
+                onClick={() => {
+                  if (status) setStatus(!status);
+                }}
               >
                 <div className="indicator">
                   <svg
@@ -103,10 +120,8 @@ const Header = () => {
                     <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
                     <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
                   </svg>
-                  {number ? (
-                    <span className="badge badge-sm indicator-item">
-                      {number}
-                    </span>
+                  {status ? (
+                    <span className="badge badge-sm bg-primary outline-primary indicator-item"></span>
                   ) : (
                     <span className="badge badge-sm indicator-item bg-transparent border-transparent"></span>
                   )}
@@ -114,12 +129,12 @@ const Header = () => {
               </div>
               <div
                 tabIndex={0}
-                className="mt-3 z-[1] card card-compact dropdown-content w-64 max-h-72 bg-[#fff] shadow"
+                className="mt-3 z-[1] card card-compact dropdown-content w-64 max-h-72 bg-[#fff] shadow overflow-scroll"
               >
                 <div className="card-body">
-                  {/* <span className="font-bold text-lg">8 Items</span>
-                  <span className="text-info">Subtotal: $999</span> */}
-                  <span>Nha tuyen dung da xem ho so cua ban</span>
+                  {notification?.map((e: { text: string }) => (
+                    <span className="pb-2 border-b">{e.text}</span>
+                  ))}
                 </div>
               </div>
             </div>
