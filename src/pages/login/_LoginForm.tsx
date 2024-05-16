@@ -29,11 +29,35 @@ const LoginForm = () => {
         // addUser(data.data.tokens.accessToken, data.data.user.id);
         document.location.href = "/";
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        showToast();
+        console.log(error.message);
+      });
   };
+
+  function showToast() {
+    const toast = document.querySelector(
+      ".toast-login:where(.toast-top)",
+    ) as HTMLInputElement;
+    toast.style.display = "block";
+    toast.style.animation = "slideInLeft 1s";
+
+    setTimeout(() => {
+      toast.style.animation = "slideInRight 1s";
+    }, 2000);
+
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 3000);
+  }
 
   return (
     <div className="basis-1/2 max-w-sm">
+      <div className="toast toast-login toast-top toast-end">
+        <div className="alert alert-error">
+          <span>Username hoặc mật khẩu sai.</span>
+        </div>
+      </div>
       <span className="block font-bold">Welcome to TopIT</span>
       <span>
         By signing in, you agree to ITviec’s

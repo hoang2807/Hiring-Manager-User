@@ -26,7 +26,7 @@ const userId = Astro.cookies.get("id")?.value;
 
 <Layout title="job">
   <Search client:idle />
-  <div class="mx-auto max-w-[1220px] mt-8 flex justify-between gap-4">
+  <div class="mx-auto max-w-[1220px] mt-8 flex justify-between gap-4 relative">
     <div class="w-2/3 flex flex-col gap-6">
       <div class="flex flex-col gap-4 bg-[#fff] rounded p-6">
         <h1>
@@ -150,6 +150,16 @@ const userId = Astro.cookies.get("id")?.value;
       </div>
     </div>
   </div>
+  <div class="toast toast-profile-success toast-top toast-end">
+    <div class="alert alert-success">
+      <span>Nộp CV thành công</span>
+    </div>
+  </div>
+  <div class="toast toast-profile-error toast-top toast-end">
+    <div class="alert alert-error">
+      <span>Có lỗi xảy ra.</span>
+    </div>
+  </div>
 </Layout>
 
 <script>
@@ -160,11 +170,42 @@ const userId = Astro.cookies.get("id")?.value;
   const enterpriseId = document.getElementById(
     "enterpriseId",
   ) as HTMLInputElement;
-
   const userId = window.sessionStorage.getItem("id") || "";
 
   if (userId == "0") {
     apply?.setAttribute("disabled", "");
+  }
+
+  function showToastError() {
+    const toast = document.querySelector(
+      ".toast-profile-error:where(.toast-top)",
+    ) as HTMLInputElement;
+    toast.style.display = "block";
+    toast.style.animation = "slideInLeft 1s";
+
+    setTimeout(() => {
+      toast.style.animation = "slideInRight 1s";
+    }, 2000);
+
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 3000);
+  }
+
+  function showToastSuccess() {
+    const toast = document.querySelector(
+      ".toast-profile-success:where(.toast-top)",
+    ) as HTMLInputElement;
+    toast.style.display = "block";
+    toast.style.animation = "slideInLeft 1s";
+
+    setTimeout(() => {
+      toast.style.animation = "slideInRight 1s";
+    }, 2000);
+
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 3000);
   }
 
   apply_cv?.addEventListener("click", () => {
@@ -190,8 +231,13 @@ const userId = Astro.cookies.get("id")?.value;
         body: formData,
       })
         .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error));
+        .then((data) => {
+          console.log(data);
+          showToastSuccess();
+        })
+        .catch((error) => {
+          showToastError();
+        });
     } else {
       // No files selected, handle this case accordingly
       console.log("No files selected.");

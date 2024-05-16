@@ -132,8 +132,10 @@ const Header = () => {
                 className="mt-3 z-[1] card card-compact dropdown-content w-64 max-h-72 bg-[#fff] shadow overflow-scroll"
               >
                 <div className="card-body">
-                  {notification?.map((e: { text: string }) => (
-                    <span className="pb-2 border-b">{e.text}</span>
+                  {notification?.map((e: { id: number; text: string }) => (
+                    <span className="pb-2 border-b" key={e.id}>
+                      {e.text}
+                    </span>
                   ))}
                 </div>
               </div>
