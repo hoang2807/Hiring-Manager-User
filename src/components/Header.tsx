@@ -22,16 +22,13 @@ const Header = () => {
 
   useEffect(() => {
     const id = window.sessionStorage.getItem("id") || "";
-    console.log("socket");
     socket.on("connect", () => {
       console.log("connect");
     });
 
     socket.on(`notification-${id}`, (data) => {
-      console.log("data socket");
       showToast();
       setStatus(true);
-      console.log(data);
     });
   }, []);
 

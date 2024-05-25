@@ -300,14 +300,13 @@ import IconSvg from "@/components/IconSvg.astro";
 
   const date = new Date();
   const year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-
+  let month: string | number = date.getMonth() + 1;
+  let day: string | number = date.getDate();
   if (month < 10) month = "0" + month;
   if (day < 10) day = "0" + day;
-
+  console.log(month, day);
   const today = `${year}-${month}-${day}`;
-  document.querySelector(".birthday").value = today;
+  birthday.value = today;
 
   const formStep = document.querySelectorAll(
     ".formStep",
@@ -337,7 +336,7 @@ import IconSvg from "@/components/IconSvg.astro";
   }
 
   updateStepClass(currentStep);
-  // showStep(currentStep);
+  showStep(currentStep);
 
   next?.addEventListener("click", (e) => {
     e.preventDefault();

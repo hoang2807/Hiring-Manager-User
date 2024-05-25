@@ -22,9 +22,14 @@ const deadline_date = data.deadline_date;
 const checkDate =
   new Date() > new Date(deadline_date?.split("/")?.reverse()?.join("/"));
 const userId = Astro.cookies.get("id")?.value;
+
+const enterprise = await (
+  await fetch(`${import.meta.env.BASE_API_URL}/enterprise/${enterpriseId}`)
+).json();
+const img = `${import.meta.env.BASE_BACKEND_URL}/${enterprise?.data.image?.replace("upload", "public")}`;
 ---
 
-<Layout title="job">
+<Layout title={data.title}>
   <Search client:idle />
   <div class="mx-auto max-w-[1220px] mt-8 flex justify-between gap-4 relative">
     <div class="w-2/3 flex flex-col gap-6">
@@ -136,17 +141,15 @@ const userId = Astro.cookies.get("id")?.value;
     </div>
     <div class="w-1/3 flex flex-col gap-6">
       <div class="flex flex-col gap-4 bg-[#fff] rounded p-6">
-        <h1>
-          {data.title}
-        </h1>
-        <input type="text" value={jobId} id="jobId" class="hidden" />
-        <input
-          type="text"
-          value={enterpriseId}
-          id="enterpriseId"
-          class="hidden"
-        />
-        <div class="badge">Hạn nộp hồ sơ: {data.deadline_date}</div>
+        <div class="flex gap-3">
+          <img src={img} alt="" class="w-20 h-auto" />
+          <h1 class="font-medium text-2xl">
+            {enterprise.data.name}
+          </h1>
+        </div>
+        <span>
+          {enterprise.data.about_me}
+        </span>
       </div>
     </div>
   </div>
@@ -158,6 +161,11 @@ const userId = Astro.cookies.get("id")?.value;
   <div class="toast toast-profile-error toast-top toast-end">
     <div class="alert alert-error">
       <span>Có lỗi xảy ra.</span>
+    </div>
+  </div>
+  <div class="toast toast-profile-warning toast-top toast-end">
+    <div class="alert alert-warning">
+      <span>Bạn chưa up file</span>
     </div>
   </div>
 </Layout>
@@ -208,8 +216,26 @@ const userId = Astro.cookies.get("id")?.value;
     }, 3000);
   }
 
-  apply_cv?.addEventListener("click", () => {
+  function showToastWarning() {
+    const toast = document.querySelector(
+      ".toast-profile-warning:where(.toast-top)",
+    ) as HTMLInputElement;
+    toast.style.display = "block";
+    toast.style.animation = "slideInLeft 1s";
+
+    setTimeout(() => {
+      toast.style.animation = "slideInRight 1s";
+    }, 2000);
+
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 3000);
+  }
+
+  apply_cv?.addEventListener("click", (e) => {
+    console.log("test");
     if (cv.files && cv.files.length > 0) {
+      console.log("test1");
       const formData = new FormData();
       formData.append("jobId", jobId.value);
       formData.append("enterpriseId", enterpriseId.value);
@@ -236,11 +262,13 @@ const userId = Astro.cookies.get("id")?.value;
           showToastSuccess();
         })
         .catch((error) => {
+          console.log(error);
           showToastError();
         });
     } else {
       // No files selected, handle this case accordingly
       console.log("No files selected.");
+      showToastWarning();
     }
   });
 </script>
