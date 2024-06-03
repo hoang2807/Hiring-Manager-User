@@ -64,9 +64,12 @@ const img = `${import.meta.env.BASE_BACKEND_URL}/${enterprise?.data.image?.repla
               Apply Now
             </button>
           ) : (
-            <div class="badge badge-neutral w-full py-5 text-xl font-semibold">
+            <a
+              class="badge badge-neutral w-full py-5 text-xl font-semibold hover:opacity-90"
+              href="/login"
+            >
               Đăng nhập để apply
-            </div>
+            </a>
           )
         }
         <dialog id="my_modal_1" class="modal">
