@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import location from "@/data/cities.json";
 const recommend: Array<string> = ["Java", "NodeJS", "ReactJS", "PHP"];
@@ -7,6 +7,8 @@ import "@/styles/tooltip.css";
 
 const Search = () => {
   const [tooltip, setTooltip] = useState<any[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const showHint = (text: string) => {
     fetch(`http://localhost:3000/api/job/search`, {
       method: "post",
@@ -19,10 +21,14 @@ const Search = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
         setTooltip(data.data);
       })
       .catch((error) => console.error(error));
+  };
+
+  const handleSearch = () => {
+    if (inputRef.current)
+      window.location.href = `/job/search/list/${inputRef.current.value}`;
   };
 
   return (
@@ -58,6 +64,7 @@ const Search = () => {
               placeholder="Nhập theo từ khóa kỹ năng"
               className="input input-bordered w-full h-14 text-[#000]"
               onChange={(e) => showHint(e.target.value)}
+              ref={inputRef}
             />
             <div className="flex flex-col p-4 bg-white w-full h-24 rounded-md z-20 absolute right-0 invisible myTooltip-item bg-[#fff] text-[#000] overflow-scroll">
               <ul className="list-disc space-y-2">
@@ -78,7 +85,9 @@ const Search = () => {
               </ul>
             </div>
           </div>
-          <button className="btn btn-primary w-60 h-14">Tìm kiếm</button>
+          <button className="btn btn-primary w-60 h-14" onClick={handleSearch}>
+            Tìm kiếm
+          </button>
         </div>
         <div className="flex gap-4 items-center">
           <p className="text-[#fff]">Mọi người đang tìm kiếm:</p>
