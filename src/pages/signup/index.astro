@@ -340,7 +340,10 @@ import IconSvg from "@/components/IconSvg.astro";
 
   next?.addEventListener("click", (e) => {
     e.preventDefault();
-
+    if (password.value !== confirm.value) {
+      warningToast("Nhập lại password");
+      return false;
+    }
     currentStep++;
     updateStepClass(currentStep);
     showStep(currentStep);
@@ -355,11 +358,7 @@ import IconSvg from "@/components/IconSvg.astro";
 
   signup.addEventListener("click", (e) => {
     e.preventDefault();
-    if (password.value !== confirm.value) {
-      console.log("test");
-      warningToast("Nhập lại password");
-      return false;
-    }
+
     console.log(
       JSON.stringify({
         username: username.value,
@@ -392,8 +391,13 @@ import IconSvg from "@/components/IconSvg.astro";
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (data.statusCode === 400) warningToast(data.message);
-        else document.location.replace("/");
+        if (
+          data.statusCode === 400 ||
+          data.statusCode === 401 ||
+          data.statusCode === 403
+        )
+          warningToast(data.message);
+        else document.location.replace("/login");
       })
       .catch((error) => {
         console.log(error);

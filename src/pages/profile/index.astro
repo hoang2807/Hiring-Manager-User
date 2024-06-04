@@ -139,9 +139,9 @@ if (Astro.cookies.has("id")) {
       </>
     )
   }
-  <div class="toast toast-top toast-end">
+  <div class="toast toast-top toast-end toast-profile">
     <div class="alert alert-success">
-      <span>Message sent successfully.</span>
+      <span>Update profile success</span>
     </div>
   </div>
 
@@ -215,7 +215,7 @@ if (Astro.cookies.has("id")) {
 
     function showToast() {
       const toast = document.querySelector(
-        ".toast:where(.toast-top)",
+        ".toast.toast-profile:where(.toast-top)",
       ) as HTMLInputElement;
       toast.style.display = "block";
       toast.style.animation = "slideInLeft 1s";
