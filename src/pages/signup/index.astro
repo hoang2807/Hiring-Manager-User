@@ -344,9 +344,19 @@ import IconSvg from "@/components/IconSvg.astro";
       warningToast("Nhập lại password");
       return false;
     }
-    currentStep++;
-    updateStepClass(currentStep);
-    showStep(currentStep);
+    fetch(`http://localhost:3000/api/user/findEmail/${email.value}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.data) {
+          warningToast("Email đã tồn tại");
+        } else {
+          currentStep++;
+          updateStepClass(currentStep);
+          showStep(currentStep);
+        }
+      })
+      .catch((error) => console.log(error));
   });
 
   prev.addEventListener("click", (e) => {

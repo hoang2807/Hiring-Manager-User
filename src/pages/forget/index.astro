@@ -40,3 +40,25 @@ import Layout from "@/layouts/Layout.astro";
     </div>
   </div>
 </Layout>
+
+<script>
+  const email = document.querySelector(".email") as HTMLInputElement;
+  const button = document.querySelector("button") as HTMLButtonElement;
+
+  button.addEventListener("click", (e) => {
+    e.preventDefault();
+    fetch(`http://localhost:3000/api/mailer/reset-password`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ to: email.value }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data) window.open(data.data, "_blank");
+        else alert("Email không tồn tại");
+      })
+      .catch((error) => console.log(error));
+  });
+</script>
