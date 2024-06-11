@@ -6,12 +6,12 @@ let id;
 let fullName;
 let phone;
 let email;
-let skills;
+let skills = [];
 if (Astro.cookies.has("id")) {
   id = Astro.cookies.get("id")?.value;
   const res = await fetch(`${import.meta.env.BASE_API_URL}/user/${id}`);
   const data = await res.json();
-  skills = data.data.skills.split(",");
+  if (data.data.skills) skills = data.data.skills.split(",");
   fullName = data.data.fullName;
   phone = data.data.phone_number;
   email = data.data.email;
